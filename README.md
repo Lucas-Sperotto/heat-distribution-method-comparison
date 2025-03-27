@@ -61,7 +61,7 @@ Os resultados serão gerados em `data/` e os gráficos podem ser salvos com os s
 
 ## 🧑‍💻 Autor
 
-Este repositório está sendo desenvolvido por Lucas Kriesel Sperotto, com foco em rigor técnico, aplicabilidade prática e fins educacionais.
+Este repositório está sendo desenvolvido por [**Lucas Kriesel Sperotto**](https://github.com/Lucas-Sperotto), com foco em rigor técnico, aplicabilidade prática e fins educacionais.
 
 ---
 
