@@ -18,7 +18,7 @@ void salvarResultado(const Grid& grid, const std::string& filename) {
 }
 
 int main() {
-    int nx = 401, ny = 401;
+    int nx = 41, ny = 41;
     double a = 1.0, b = 1.0;
 
     Grid placa(nx, ny, a, b);
