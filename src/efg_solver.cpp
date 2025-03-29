@@ -22,41 +22,62 @@ struct MLSResult
 
 void resolverEFG(Grid &grid)
 {
-    int nx = grid.nx, ny = grid.ny;
+    int nx = grid.nx;
+    int ny = grid.ny;
     int N = nx * ny;
 
     std::vector<std::vector<double>> K(N, std::vector<double>(N, 0.0));
     std::vector<double> F(N, 0.0);
     std::vector<double> T(N, 0.0);
 
-    double raio = 3.0 * std::max(grid.dx, grid.dy);
-    double area = grid.dx * grid.dy;
+    double raio = 12.0 * std::max(grid.dx, grid.dy);
 
-    for (int j = 1; j < ny - 1; ++j)
+    // Quadratura de Gauss 2x2
+    const double gauss_pts[2] = { -1.0 / std::sqrt(3), 1.0 / std::sqrt(3) };
+    const double gauss_wts[2] = { 1.0, 1.0 };
+
+    // Loop sobre as células da malha de fundo
+    for (int j = 0; j < ny - 1; ++j)
     {
-        for (int i = 1; i < nx - 1; ++i)
+        for (int i = 0; i < nx - 1; ++i)
         {
-            double x = i * grid.dx;
-            double y = j * grid.dy;
+            double x0 = i * grid.dx;
+            double y0 = j * grid.dy;
 
-            MLSResult mls = calcularMLS(grid, x, y, raio);
-
-            int n = mls.indices.size();
-            for (int a = 0; a < n; ++a)
+            // Loop sobre pontos de Gauss dentro da célula
+            for (int gp_y = 0; gp_y < 2; ++gp_y)
             {
-                for (int b = 0; b < n; ++b)
+                for (int gp_x = 0; gp_x < 2; ++gp_x)
                 {
-                    int ia = mls.indices[a];
-                    int ib = mls.indices[b];
+                    double xi = gauss_pts[gp_x];
+                    double eta = gauss_pts[gp_y];
+                    double wx = gauss_wts[gp_x];
+                    double wy = gauss_wts[gp_y];
 
-                    double dphi_dx_a = mls.dphi_dx(a);
-                    double dphi_dy_a = mls.dphi_dy(a);
-                    double dphi_dx_b = mls.dphi_dx(b);
-                    double dphi_dy_b = mls.dphi_dy(b);
+                    // Transformação para coordenadas físicas
+                    double x = x0 + 0.5 * (1.0 + xi) * grid.dx;
+                    double y = y0 + 0.5 * (1.0 + eta) * grid.dy;
+                    double w = wx * wy * 0.25 * grid.dx * grid.dy; // peso com jacobiano
 
-                    double integrando = (dphi_dx_a * dphi_dx_b + dphi_dy_a * dphi_dy_b);
+                    MLSResult mls = calcularMLS(grid, x, y, raio);
+                    int n = mls.indices.size();
 
-                    K[ia][ib] += mls.phi(a) * mls.phi(b) * area; // K[ia][ib] += integrando * area; // peso da malha de fundo
+                    for (int a = 0; a < n; ++a)
+                    {
+                        for (int b = 0; b < n; ++b)
+                        {
+                            int ia = mls.indices[a];
+                            int ib = mls.indices[b];
+
+                            double dphi_dx_a = mls.dphi_dx(a);
+                            double dphi_dy_a = mls.dphi_dy(a);
+                            double dphi_dx_b = mls.dphi_dx(b);
+                            double dphi_dy_b = mls.dphi_dy(b);
+
+                            double integrando = dphi_dx_a * dphi_dx_b + dphi_dy_a * dphi_dy_b;
+                            K[ia][ib] += integrando * w;
+                        }
+                    }
                 }
             }
         }
@@ -84,6 +105,7 @@ void resolverEFG(Grid &grid)
         for (int i = 0; i < nx; ++i)
             grid.T[j][i] = T[j * nx + i];
 }
+
 
 std::vector<int> obterNosVizinhos(double x, double y, const Grid &grid, double raio)
 {
