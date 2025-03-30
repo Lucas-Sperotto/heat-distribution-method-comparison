@@ -6,8 +6,8 @@ Este documento apresenta uma análise comparativa dos resultados obtidos pelos t
 
 ## 1. Configuração do problema
 
-- Dimensões da placa: \( a \times b \)
-- Malha: regular, com divisões \( n_x \times n_y \)
+- Dimensões da placa: $` a \times b `$
+- Malha: regular, com divisões $` n_x \times n_y `$
 - Condições de contorno:
   - T(x=0) = 100
   - T(x=a), T(y=0), T(y=b) = 0
@@ -34,7 +34,7 @@ Os arquivos gerados pelos métodos estão localizados na pasta `data/`:
 - `resultado_fem.txt` - Elementos Finitos
 - `resultado_efg.txt` - Element Free Galerkin
 
-Cada arquivo contém a matriz \( T \) em formato texto (para leitura por scripts de visualização).
+Cada arquivo contém a matriz $` T `$ em formato texto (para leitura por scripts de visualização).
 
 ---
 
@@ -69,14 +69,14 @@ plt.show()
 - O método de Elementos Finitos permite futuras extensões para malhas triangulares ou domínios complexos.
 - O EFG exige cuidados na escolha do raio de influência e na integração numérica.
 - Em todos os casos, a solução se aproxima da analítica conhecida:
-  \[ T(x, y) = \sum_{n=1}^{\infty} A_n \sin\left(\frac{n\pi x}{a}\right)\sinh\left(\frac{n\pi y}{a}\right) \]
+  $` T(x, y) = \sum_{n=1}^{\infty} A_n \sin\left(\frac{n\pi x}{a}\right)\sinh\left(\frac{n\pi y}{a}\right) `$
   para casos com contorno tênue no tempo.
 
 ---
 
 ## 6. Possíveis extensões futuras
 
-- Avaliar o erro \( L_2 \) entre solução numérica e analítica
+- Avaliar o erro $` L_2 `$ entre solução numérica e analítica
 - Implementar cronometragem para comparação de desempenho
 - Incluir animação para simular evolução temporal (caso transiente)
 - Permitir entrada de geometrias complexas (caso FEM e EFG)
