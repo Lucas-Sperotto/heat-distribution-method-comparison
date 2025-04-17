@@ -12,21 +12,21 @@ O método das diferenças finitas substitui as derivadas parciais por aproximaç
 
 A equação de Laplace:
 
-\[
+$`
 \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} = 0
-\]
+`$
 
 pode ser aproximada em uma malha uniforme por:
 
-\[
+$`
 \frac{T_{i+1,j} - 2T_{i,j} + T_{i-1,j}}{\Delta x^2} + \frac{T_{i,j+1} - 2T_{i,j} + T_{i,j-1}}{\Delta y^2} = 0
-\]
+`$
 
-Assumindo \( \Delta x = \Delta y \), temos:
+Assumindo $` \Delta x = \Delta y `$, temos:
 
-\[
+$`
 T_{i+1,j} + T_{i-1,j} + T_{i,j+1} + T_{i,j-1} - 4T_{i,j} = 0
-\]
+`$
 
 Esse sistema gera um conjunto de equações lineares que podem ser resolvidas por métodos iterativos (Gauss-Seidel, SOR, etc.) ou diretos.
 
@@ -36,26 +36,26 @@ Esse sistema gera um conjunto de equações lineares que podem ser resolvidas po
 
 O método dos elementos finitos parte da formulação fraca da equação:
 
-\[
+$`
 \int_\Omega \nabla T \cdot \nabla v \, d\Omega = 0, \quad \forall v \in V_0
-\]
+`$
 
-A região \( \Omega \) é discretizada em elementos (triangulares ou quadriláteros), e as funções de forma \( \phi_i \) são utilizadas para interpolar a solução dentro de cada elemento:
+A região $` \Omega `$ é discretizada em elementos (triangulares ou quadriláteros), e as funções de forma $` \phi_i `$ são utilizadas para interpolar a solução dentro de cada elemento:
 
-\[
+$`
 T(x, y) \approx \sum_{i=1}^N T_i \phi_i(x, y)
-\]
+`$
 
 Isso gera um sistema do tipo:
 
-\[
+$`
 \mathbf{K} \mathbf{T} = \mathbf{F}
-\]
+`$
 
 onde:
-- \( \mathbf{K} \) é a matriz de rigidez,
-- \( \mathbf{T} \) é o vetor de temperaturas nos nós,
-- \( \mathbf{F} \) é o vetor de forças (nulo no caso sem fonte).
+- $` \mathbf{K} `$ é a matriz de rigidez,
+- $` \mathbf{T} `$ é o vetor de temperaturas nos nós,
+- $` \mathbf{F} `$ é o vetor de forças (nulo no caso sem fonte).
 
 ---
 
@@ -65,19 +65,19 @@ O método Element Free Galerkin também utiliza a formulação fraca, mas substi
 
 A aproximação da solução é:
 
-\[
+$`
 T(x, y) \approx \sum_{I=1}^n \phi_I(x, y) T_I
-\]
+`$
 
-onde \( \phi_I(x, y) \) são obtidas via ponderação de funções base centradas em pontos de suporte, não dependendo de elementos conectados.
+onde $` \phi_I(x, y) `$ são obtidas via ponderação de funções base centradas em pontos de suporte, não dependendo de elementos conectados.
 
 As integrações são realizadas sobre um domínio de influência com base em técnicas de integração por pontos, frequentemente com auxílio de malhas de background.
 
 O sistema resultante também possui a forma:
 
-\[
+$`
 \mathbf{K} \mathbf{T} = \mathbf{F}
-\]
+`$
 
 mas com matriz de rigidez construída a partir das funções de forma obtidas pelo MLS.
 
