@@ -26,7 +26,7 @@ int main() {
     placa.aplicarCondicoesDeContorno();
 
     double tol = 2.22e-16;
-    int maxIter = 10000;
+    int maxIter = 10000000;
     
 
     std::chrono::steady_clock::time_point start, end;
@@ -34,7 +34,7 @@ int main() {
 
     // --- Método de Diferenças Finitas ---
     start = std::chrono::steady_clock::now();
-    resolverDifFinita(placa, tol, maxIter, 4);
+    resolverDifFinita(placa, tol, maxIter, 6);
     salvarResultado(placa, "data/resultado_fd.txt");
     std::cout << "Resultado salvo em data/resultado_fd.txt\n";
     end = std::chrono::steady_clock::now();
